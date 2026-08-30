@@ -1,0 +1,61 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<footer id="contact" class="relative overflow-hidden bg-surface">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--color-blue-soft),transparent_60%)]"></div>
+
+  <div class="relative mx-auto max-w-5xl px-6 py-24">
+    <p class="reveal font-mono text-xs uppercase tracking-[0.25em] text-blue">
+      // Let's talk
+    </p>
+    <h2 class="reveal mt-4 max-w-xl font-display text-4xl font-semibold text-ink sm:text-5xl" data-delay="0.06">
+      Building the next AI system starts with a conversation.
+    </h2>
+
+    <div class="reveal mt-10 flex flex-wrap gap-3" data-delay="0.12">
+      <a
+        href="mailto:varungupta.ml@gmail.com"
+        class="inline-flex items-center gap-2 rounded-full border border-line bg-surface-raised px-4 py-2.5 text-sm text-ink transition-colors hover:border-blue hover:text-blue"
+      >
+        <Icon name="mail" class="h-4 w-4" />
+        varungupta.ml@gmail.com
+      </a>
+      <a
+        href="https://linkedin.com/in/varun-gupta-6311202a7"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-full border border-line bg-surface-raised px-4 py-2.5 text-sm text-ink transition-colors hover:border-blue hover:text-blue"
+      >
+        <Icon name="linkedin" class="h-4 w-4" />
+        LinkedIn
+      </a>
+      <a
+        href="https://github.com/Varungupta2003"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-full border border-line bg-surface-raised px-4 py-2.5 text-sm text-ink transition-colors hover:border-blue hover:text-blue"
+      >
+        <Icon name="github" class="h-4 w-4" />
+        GitHub
+      </a>
+      <a
+        href="https://leetcode.com/u/Varungupta2003/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-full border border-line bg-surface-raised px-4 py-2.5 text-sm text-ink transition-colors hover:border-blue hover:text-blue"
+      >
+        <Icon name="code" class="h-4 w-4" />
+        LeetCode
+      </a>
+      <span class="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm text-ink-muted">
+        <Icon name="map-pin" class="h-4 w-4" />
+        London, United Kingdom
+      </span>
+    </div>
+
+    <p class="mt-16 border-t border-line pt-6 font-mono text-xs text-ink-dim">
+      © {new Date().getFullYear()} Varun Gupta.
+    </p>
+  </div>
+</footer>

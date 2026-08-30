@@ -1,0 +1,50 @@
+---
+import Icon from "./Icon.astro";
+
+const steps = [
+  {
+    label: "Data",
+    detail: "284,807 transactions, ~0.17% fraud — extreme class imbalance",
+  },
+  {
+    label: "SMOTE",
+    detail: "Synthetic oversampling of the fraud class, applied to training data only",
+  },
+  {
+    label: "Threshold tuning",
+    detail: "Decision threshold optimised instead of the default 0.5 cutoff",
+  },
+  {
+    label: "Result",
+    detail: "Fraud recall improved from 76% to 90%+",
+  },
+];
+---
+
+<div data-pipeline class="flex flex-col gap-0 md:flex-row md:items-stretch">
+  {
+    steps.map((step, i) => (
+      <>
+        <div
+          data-step
+          class="flex-1 rounded-xl border border-line bg-void/40 p-4"
+        >
+          <p class="font-mono text-xs uppercase tracking-wide text-blue">
+            {String(i + 1).padStart(2, "0")}
+          </p>
+          <p class="mt-1 font-display text-sm font-semibold text-ink">
+            {step.label}
+          </p>
+          <p class="mt-1 text-xs leading-relaxed text-ink-muted">
+            {step.detail}
+          </p>
+        </div>
+        {i < steps.length - 1 && (
+          <div class="flex items-center justify-center py-1 text-ink-dim md:px-1 md:py-0">
+            <Icon name="arrow-right" class="h-4 w-4 rotate-90 md:rotate-0" />
+          </div>
+        )}
+      </>
+    ))
+  }
+</div>

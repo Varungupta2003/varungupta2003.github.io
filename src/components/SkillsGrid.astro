@@ -1,0 +1,48 @@
+---
+const groups = [
+  { title: "Languages & Core", items: ["Python", "SQL"] },
+  {
+    title: "ML / DS",
+    items: ["scikit-learn", "TF-IDF", "SMOTE", "Threshold optimisation"],
+  },
+  {
+    title: "NLP & AI Systems",
+    items: [
+      "Natural Language Processing",
+      "Agentic AI",
+      "Prompt Engineering",
+      "RAG",
+    ],
+  },
+  { title: "Infra & Tooling", items: ["Docker", "MLflow", "Streamlit", "Git/GitHub"] },
+];
+---
+
+<section id="skills" class="border-b border-line">
+  <div class="mx-auto max-w-5xl px-6 py-24">
+    <h2 class="reveal font-mono text-xs font-semibold uppercase tracking-[0.25em] text-blue">
+      // Technical Stack
+    </h2>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        groups.map((group, i) => (
+          <div
+            class="reveal rounded-2xl border border-line bg-surface p-5"
+            data-delay={i * 0.08}
+          >
+            <h3 class="font-mono text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              {group.title}
+            </h3>
+            <ul class="mt-4 flex flex-wrap gap-1.5">
+              {group.items.map((item) => (
+                <li class="rounded-full border border-line bg-surface-raised px-2.5 py-1 font-mono text-[11px] text-ink">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+---
+const links = [
+  { href: "#about", label: "About" },
+  { href: "#projects", label: "Work" },
+  { href: "#skills", label: "Stack" },
+  { href: "#experience", label: "Log" },
+  { href: "#contact", label: "Contact" },
+];
+---
+
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-blue focus:px-4 focus:py-2 focus:text-void"
+>
+  Skip to content
+</a>
+<header class="sticky top-4 z-40 flex justify-center px-4">
+  <nav
+    class="flex w-full max-w-2xl items-center justify-between gap-4 rounded-full border border-line bg-surface/80 px-5 py-2.5 backdrop-blur-md"
+    aria-label="Primary"
+  >
+    <a href="#" class="font-display text-sm font-semibold text-ink">
+      Varun<span class="text-blue">.</span>
+    </a>
+    <ul class="hidden gap-5 sm:flex">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="font-mono text-xs uppercase tracking-wide text-ink-muted transition-colors hover:text-blue"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href="/cv/Varun-Gupta-CV.pdf"
+      download
+      class="rounded-full bg-blue px-3.5 py-1.5 font-mono text-xs font-medium text-void transition-transform hover:-translate-y-0.5"
+    >
+      CV
+    </a>
+  </nav>
+</header>

@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* dark, engineering-grounded palette — not a single neon, a small jewel-tone system */
+  --color-void: #0a0c10;
+  --color-ink: #eef0f3;
+  --color-ink-muted: #8b93a3;
+  --color-ink-dim: #545c6b;
+  --color-surface: #12151b;
+  --color-surface-raised: #171b22;
+  --color-line: #232830;
+  --color-line-soft: #1a1e25;
+
+  --color-blue: #4c7ef5;
+  --color-blue-soft: #1c2b52;
+  --color-amber: #e0a458;
+  --color-amber-soft: #3a2e1a;
+  --color-teal: #4fd1ae;
+  --color-teal-soft: #123330;
+  --color-coral: #ef8272;
+  --color-coral-soft: #3a1f1c;
+  --color-violet: #9d8cf7;
+  --color-violet-soft: #251f45;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-void);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background-color: var(--color-blue);
+  color: var(--color-void);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}

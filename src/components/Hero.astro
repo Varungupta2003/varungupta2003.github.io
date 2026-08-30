@@ -1,0 +1,137 @@
+---
+import Icon from "./Icon.astro";
+
+const stats = [
+  { value: 90, suffix: "%+", label: "Fraud recall achieved" },
+  { value: 284807, suffix: "", label: "Transactions analysed" },
+  { value: 8, suffix: "", label: "Shipped AI projects" },
+  { value: 50, suffix: "%", label: "Manual effort cut via RPA" },
+];
+---
+
+<section class="relative overflow-hidden border-b border-line">
+  <div class="pointer-events-none absolute inset-0">
+    <canvas id="hero-canvas" class="h-full w-full"></canvas>
+    <div
+      id="hero-glow"
+      class="absolute h-[32rem] w-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue/10 blur-[100px] transition-transform duration-700 ease-out"
+    >
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-void/10 via-void/60 to-void">
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 pb-24 pt-28 sm:pt-36">
+    <p
+      class="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3 py-1 font-mono text-xs uppercase tracking-[0.2em] text-blue backdrop-blur"
+    >
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-75"></span>
+        <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-teal"></span>
+      </span>
+      Open to work · AI Engineer · London
+    </p>
+
+    <p
+      class="reveal mt-8 font-mono text-sm uppercase tracking-[0.3em] text-ink-dim"
+      data-delay="0.04"
+    >
+      Varun Gupta /
+    </p>
+
+    <h1
+      class="reveal mt-3 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-ink sm:text-7xl"
+      data-delay="0.08"
+    >
+      Engineering <span class="relative inline-block text-blue">
+        intelligence
+        <svg class="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 5 Q50 0 100 4 T200 3" fill="none" stroke="var(--color-blue)" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+      </span> you can{" "}
+      <span class="text-amber">explain</span>.
+    </h1>
+
+    <p
+      class="reveal mt-6 max-w-xl text-lg text-ink-muted sm:text-xl"
+      data-delay="0.16"
+    >
+      I build AI systems that are practical, explainable, and grounded in
+      real engineering — not just model experiments.
+    </p>
+
+    <div class="reveal mt-9 flex flex-wrap items-center gap-4" data-delay="0.22">
+      <a
+        href="#projects"
+        class="inline-flex items-center gap-2 rounded-full bg-blue px-6 py-3 text-sm font-medium text-void transition-transform hover:-translate-y-0.5 hover:shadow-[0_0_24px_-4px_var(--color-blue)]"
+      >
+        View Projects
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+      <a
+        href="/cv/Varun-Gupta-CV.pdf"
+        download
+        class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue"
+      >
+        Download CV
+        <Icon name="download" class="h-4 w-4" />
+      </a>
+      <a
+        href="#contact"
+        class="inline-flex items-center gap-2 px-2 py-3 text-sm font-medium text-ink-muted transition-colors hover:text-blue"
+      >
+        Contact
+      </a>
+    </div>
+
+    <div
+      class="reveal mt-16 overflow-hidden rounded-2xl border border-line bg-surface/60 backdrop-blur"
+      data-delay="0.28"
+    >
+      <p class="border-b border-line px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink-dim">
+        // At a glance
+      </p>
+      <dl class="grid grid-cols-2 divide-x divide-y divide-line sm:grid-cols-4 sm:divide-y-0">
+        {
+          stats.map((stat) => (
+            <div class="p-6">
+              <dt class="sr-only">{stat.label}</dt>
+              <dd
+                class="font-mono text-2xl font-medium text-ink sm:text-3xl"
+                data-counter={stat.value}
+                data-suffix={stat.suffix}
+              >
+                0
+              </dd>
+              <dd class="mt-1 text-xs text-ink-muted">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+
+  <a
+    href="#about"
+    aria-label="Scroll to About section"
+    class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-ink-dim transition-colors hover:text-blue sm:flex"
+  >
+    <span class="font-mono text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+    <span class="h-8 w-px animate-bounce bg-current"></span>
+  </a>
+</section>
+
+<script>
+  import { initHeroScene } from "../scripts/hero-scene.js";
+  const canvas = document.getElementById("hero-canvas");
+  if (canvas instanceof HTMLCanvasElement) initHeroScene(canvas);
+
+  const glow = document.getElementById("hero-glow");
+  const heroSection = canvas?.closest("section");
+  if (glow && heroSection && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    heroSection.addEventListener("mousemove", (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      glow.style.transform = `translate(${e.clientX - rect.left}px, ${e.clientY - rect.top}px)`;
+    });
+  }
+</script>

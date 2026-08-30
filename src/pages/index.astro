@@ -1,0 +1,137 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import FraudProjectCard from "../components/FraudProjectCard.astro";
+import ProjectCategory from "../components/ProjectCategory.astro";
+import FraudRiskDemo from "../components/FraudRiskDemo.astro";
+import SkillsGrid from "../components/SkillsGrid.astro";
+import Timeline from "../components/Timeline.astro";
+import Footer from "../components/Footer.astro";
+
+const nlpProjects = [
+  {
+    title: "Customer Ticket Classifier",
+    description:
+      "NLP ticket classification pipeline with TF-IDF + Logistic Regression. Interactive Streamlit dashboard for single and batch classification with confidence scores.",
+    tags: ["Python", "TF-IDF", "Logistic Regression", "Streamlit"],
+    githubUrl: "https://github.com/Varungupta2003/CUSTOMER-TICKET-CLASSIFIER",
+    icon: "headset" as const,
+    accent: "blue" as const,
+  },
+  {
+    title: "RAG Q&A System",
+    description:
+      "Upload a PDF, ask questions, get answers grounded in the document with source chunks shown. Built without LangChain.",
+    tags: ["Python", "FAISS", "Sentence-Transformers", "Groq", "Streamlit"],
+    githubUrl: "https://github.com/Varungupta2003/rag-document-assistant",
+    demoUrl: "https://rag-document-assistant-8zgpjczxjkycapgpftb3zm.streamlit.app/",
+    icon: "book-open" as const,
+    accent: "violet" as const,
+  },
+  {
+    title: "Research Paper Summariser Agent",
+    description:
+      "Multi-agent system that extracts objectives, methods, results, and limitations from academic papers, generating structured summaries and revision flashcards with transformer-based NLP.",
+    tags: ["Python", "Multi-agent", "Transformers", "NLP"],
+    githubUrl: "https://github.com/Varungupta2003/PROJECT-2-RESEARCH-PAPER-SUMMARISER-AGENT",
+    icon: "book-open" as const,
+    accent: "blue" as const,
+  },
+];
+
+const agenticProjects = [
+  {
+    title: "AI Code Reviewer",
+    description:
+      "Multi-agent code review system: specialist agents for logic, code quality, and improvement, coordinated through a Python orchestration pipeline with structured JSON outputs.",
+    tags: ["Python", "Multi-agent", "LLM", "Structured outputs"],
+    githubUrl: "https://github.com/Varungupta2003/AI-CODE-REVIEWER",
+    icon: "code" as const,
+    accent: "teal" as const,
+  },
+  {
+    title: "Bias Review Agent",
+    description:
+      "AI bias detection agent that analyses text for framing risk and bias using multi-agent LLM reasoning — structured, explainable analysis over black-box classification.",
+    tags: ["Python", "Multi-agent", "NLP", "Responsible AI"],
+    githubUrl: "https://github.com/Varungupta2003/BIAS-REVIEW-AGENT",
+    icon: "scale" as const,
+    accent: "coral" as const,
+  },
+  {
+    title: "IT Helpdesk Agent",
+    description:
+      "Multi-agent IT helpdesk system: TF-IDF + LinearSVC ticket classification feeding Intake, Troubleshooting, and Escalation agents for structured support summaries.",
+    tags: ["Python", "scikit-learn", "TF-IDF", "Multi-agent"],
+    githubUrl: "https://github.com/Varungupta2003/IT-HELPDESK-AGENT",
+    icon: "headset" as const,
+    accent: "amber" as const,
+  },
+];
+
+const analyticsProjects = [
+  {
+    title: "Customer Churn & Behaviour Analysis",
+    description:
+      "Churn prediction system built on an agent-based architecture — the pipeline is decomposed into specialised, cooperative agents for interpretability and modularity.",
+    tags: ["Python", "Multi-agent", "Churn prediction"],
+    githubUrl: "https://github.com/Varungupta2003/CUSTOMER-CHURN-AND-BEHAVIOUR-ANALYSIS",
+    icon: "trending-down" as const,
+    accent: "amber" as const,
+  },
+];
+---
+
+<BaseLayout>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <About />
+
+    <section id="projects" class="border-b border-line">
+      <div class="mx-auto max-w-6xl px-6 py-24">
+        <h2
+          class="reveal font-mono text-xs font-semibold uppercase tracking-[0.25em] text-blue"
+        >
+          // Selected Work
+        </h2>
+        <p class="reveal mt-3 max-w-xl text-2xl font-display font-semibold text-ink" data-delay="0.05">
+          8 shipped projects, organised by department.
+        </p>
+
+        <div class="mt-10">
+          <FraudProjectCard />
+        </div>
+
+        <ProjectCategory
+          index="Dept. 02"
+          title="NLP & Language Systems"
+          description="classification, retrieval, summarisation"
+          projects={nlpProjects}
+        />
+
+        <ProjectCategory
+          index="Dept. 03"
+          title="Agentic & Responsible AI"
+          description="multi-agent orchestration, guardrails"
+          projects={agenticProjects}
+        />
+
+        <ProjectCategory
+          index="Dept. 04"
+          title="Analytics & Automation"
+          description="behavioural modelling"
+          projects={analyticsProjects}
+        />
+      </div>
+    </section>
+
+    <FraudRiskDemo />
+
+    <SkillsGrid />
+    <Timeline />
+  </main>
+  <Footer />
+</BaseLayout>

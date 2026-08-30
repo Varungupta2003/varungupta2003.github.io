@@ -1,0 +1,235 @@
+---
+---
+
+<section class="border-b border-line bg-surface/40">
+  <div class="mx-auto max-w-5xl px-6 py-24">
+    <h2 class="reveal font-mono text-xs font-semibold uppercase tracking-[0.25em] text-blue">
+      // Try It Live
+    </h2>
+    <p class="reveal mt-3 max-w-2xl text-2xl font-display font-semibold text-ink" data-delay="0.05">
+      Interactive fraud-risk scorer
+    </p>
+    <p class="reveal mt-3 max-w-2xl text-sm leading-relaxed text-ink-muted" data-delay="0.08">
+      A simplified, explainable stand-in for the decision logic in the fraud
+      project above — runs entirely in your browser. It is <em>not</em> the
+      trained SMOTE model; it's a transparent weighted-scoring illustration
+      of how a threshold-based risk decision works.
+    </p>
+
+    <p class="reveal mt-4 max-w-2xl text-sm leading-relaxed text-ink-muted" data-delay="0.09">
+      <strong class="text-ink">Why these four signals?</strong> They're the
+      same class of features a real fraud pipeline engineers from raw
+      transaction data — unusually large amounts, odd-hour activity,
+      distance from a cardholder's home, and unfamiliar merchants are
+      classic fraud correlates. A production model would combine dozens more
+      (merchant category, spending velocity, device fingerprint); this demo
+      keeps four so the logic stays fully visible.
+    </p>
+
+    <dl class="reveal mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4" data-delay="0.1">
+      <div class="rounded-xl border border-line bg-surface p-4">
+        <dt class="font-mono text-[10px] uppercase tracking-wide text-blue">Amount · max 40</dt>
+        <dd class="mt-1 text-xs text-ink-muted">Scales up as value approaches £2,000+</dd>
+      </div>
+      <div class="rounded-xl border border-line bg-surface p-4">
+        <dt class="font-mono text-[10px] uppercase tracking-wide text-amber">Time of day · max 25</dt>
+        <dd class="mt-1 text-xs text-ink-muted">Peaks around 3am, lowest mid-afternoon</dd>
+      </div>
+      <div class="rounded-xl border border-line bg-surface p-4">
+        <dt class="font-mono text-[10px] uppercase tracking-wide text-violet">Distance · max 25</dt>
+        <dd class="mt-1 text-xs text-ink-muted">Scales up as distance from home grows</dd>
+      </div>
+      <div class="rounded-xl border border-line bg-surface p-4">
+        <dt class="font-mono text-[10px] uppercase tracking-wide text-coral">New merchant · flat 10</dt>
+        <dd class="mt-1 text-xs text-ink-muted">Added if this is a first-time merchant</dd>
+      </div>
+    </dl>
+    <p class="reveal mt-3 font-mono text-[10px] text-ink-dim" data-delay="0.12">
+      Score = amount + time + distance + merchant, capped at 100. Move the
+      sliders below — the gauge and breakdown update instantly.
+    </p>
+
+    <div class="reveal mt-6 grid gap-8 rounded-2xl border border-line bg-surface p-6 sm:p-8 lg:grid-cols-2" data-delay="0.16">
+      <div class="space-y-6">
+        <div>
+          <div class="flex items-center justify-between font-mono text-xs text-ink-muted">
+            <label for="fr-amount">Transaction amount</label>
+            <span id="fr-amount-val" class="text-ink">£120</span>
+          </div>
+          <input id="fr-amount" type="range" min="1" max="3000" value="120" step="1"
+            class="mt-2 w-full accent-blue" />
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between font-mono text-xs text-ink-muted">
+            <label for="fr-hour">Hour of day</label>
+            <span id="fr-hour-val" class="text-ink">14:00</span>
+          </div>
+          <input id="fr-hour" type="range" min="0" max="23" value="14" step="1"
+            class="mt-2 w-full accent-blue" />
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between font-mono text-xs text-ink-muted">
+            <label for="fr-distance">Distance from home</label>
+            <span id="fr-distance-val" class="text-ink">5 mi</span>
+          </div>
+          <input id="fr-distance" type="range" min="0" max="500" value="5" step="1"
+            class="mt-2 w-full accent-blue" />
+        </div>
+
+        <label class="flex items-center gap-2 font-mono text-xs text-ink-muted">
+          <input id="fr-merchant" type="checkbox" class="accent-blue" />
+          First time at this merchant
+        </label>
+      </div>
+
+      <div class="flex flex-col items-center justify-center rounded-xl border border-line bg-void/40 p-6">
+        <svg viewBox="0 0 200 120" class="w-full max-w-[240px]">
+          <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--color-line)" stroke-width="14" stroke-linecap="round" />
+          <path id="fr-arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--color-teal)" stroke-width="14" stroke-linecap="round"
+            stroke-dasharray="251.2" stroke-dashoffset="251.2" style="transition: stroke-dashoffset 0.4s ease, stroke 0.4s ease;" />
+          <text x="14" y="115" class="font-mono" style="font-size: 8px; fill: var(--color-ink-dim);">0</text>
+          <text x="178" y="115" text-anchor="end" class="font-mono" style="font-size: 8px; fill: var(--color-ink-dim);">100</text>
+          <text x="100" y="90" text-anchor="middle" class="font-mono" style="font-size: 28px; fill: var(--color-ink);" id="fr-score">0</text>
+          <text x="100" y="108" text-anchor="middle" class="font-mono" style="font-size: 9px; fill: var(--color-ink-muted);">RISK SCORE / 100</text>
+        </svg>
+        <p id="fr-verdict" class="mt-2 rounded-full border border-line px-4 py-1.5 font-mono text-xs uppercase tracking-wide text-teal">
+          Low risk — auto-approve
+        </p>
+
+        <div class="mt-6 w-full space-y-2">
+          <div class="flex items-center gap-2 font-mono text-[10px] text-ink-dim">
+            <span class="w-14 shrink-0">Amount</span>
+            <div class="h-1.5 flex-1 rounded-full bg-void">
+              <div id="fr-bar-amount" class="h-1.5 rounded-full bg-blue transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <span id="fr-bar-amount-val" class="w-14 shrink-0 text-right text-ink-muted">0 / 40</span>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-[10px] text-ink-dim">
+            <span class="w-14 shrink-0">Time</span>
+            <div class="h-1.5 flex-1 rounded-full bg-void">
+              <div id="fr-bar-hour" class="h-1.5 rounded-full bg-amber transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <span id="fr-bar-hour-val" class="w-14 shrink-0 text-right text-ink-muted">0 / 25</span>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-[10px] text-ink-dim">
+            <span class="w-14 shrink-0">Distance</span>
+            <div class="h-1.5 flex-1 rounded-full bg-void">
+              <div id="fr-bar-distance" class="h-1.5 rounded-full bg-violet transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <span id="fr-bar-distance-val" class="w-14 shrink-0 text-right text-ink-muted">0 / 25</span>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-[10px] text-ink-dim">
+            <span class="w-14 shrink-0">Merchant</span>
+            <div class="h-1.5 flex-1 rounded-full bg-void">
+              <div id="fr-bar-merchant" class="h-1.5 rounded-full bg-coral transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <span id="fr-bar-merchant-val" class="w-14 shrink-0 text-right text-ink-muted">0 / 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal mt-6 max-w-2xl text-xs leading-relaxed text-ink-dim" data-delay="0.2">
+      Bands: <span class="text-teal">0–39 auto-approve</span>,{" "}
+      <span class="text-amber">40–69 flag for review</span>,{" "}
+      <span class="text-coral">70+ block &amp; escalate</span>. The real
+      project swaps these hand-set weights for a classifier trained on
+      284,807 labelled transactions, rebalanced with SMOTE and tuned past the
+      default 0.5 threshold — see the{" "}
+      <a href="#projects" class="text-blue underline underline-offset-2">
+        pipeline above
+      </a>{" "}
+      or the{" "}
+      <a
+        href="https://github.com/Varungupta2003/CREDIT-CARD-FRAUD-DETECTION"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue underline underline-offset-2"
+      >
+        source on GitHub
+      </a>.
+    </p>
+  </div>
+</section>
+
+<script>
+  const amountEl = document.getElementById("fr-amount") as HTMLInputElement;
+  const hourEl = document.getElementById("fr-hour") as HTMLInputElement;
+  const distanceEl = document.getElementById("fr-distance") as HTMLInputElement;
+  const merchantEl = document.getElementById("fr-merchant") as HTMLInputElement;
+
+  const amountVal = document.getElementById("fr-amount-val")!;
+  const hourVal = document.getElementById("fr-hour-val")!;
+  const distanceVal = document.getElementById("fr-distance-val")!;
+
+  const arc = document.getElementById("fr-arc")!;
+  const scoreText = document.getElementById("fr-score")!;
+  const verdict = document.getElementById("fr-verdict")!;
+  const barAmount = document.getElementById("fr-bar-amount")!;
+  const barHour = document.getElementById("fr-bar-hour")!;
+  const barDistance = document.getElementById("fr-bar-distance")!;
+  const barMerchant = document.getElementById("fr-bar-merchant")!;
+  const barAmountVal = document.getElementById("fr-bar-amount-val")!;
+  const barHourVal = document.getElementById("fr-bar-hour-val")!;
+  const barDistanceVal = document.getElementById("fr-bar-distance-val")!;
+  const barMerchantVal = document.getElementById("fr-bar-merchant-val")!;
+
+  const ARC_LENGTH = 251.2;
+
+  function nightRisk(hour: number) {
+    // peaks around 3am, troughs around 3pm — deliberately simple, explainable
+    const distFromNight = Math.min(Math.abs(hour - 3), Math.abs(hour - 27));
+    return Math.max(0, 1 - distFromNight / 12);
+  }
+
+  function update() {
+    const amount = Number(amountEl.value);
+    const hour = Number(hourEl.value);
+    const distance = Number(distanceEl.value);
+    const newMerchant = merchantEl.checked;
+
+    amountVal.textContent = `£${amount.toLocaleString()}`;
+    hourVal.textContent = `${String(hour).padStart(2, "0")}:00`;
+    distanceVal.textContent = `${distance} mi`;
+
+    const amountScore = Math.min(amount / 2000, 1) * 40;
+    const hourScore = nightRisk(hour) * 25;
+    const distanceScore = Math.min(distance / 400, 1) * 25;
+    const merchantScore = newMerchant ? 10 : 0;
+
+    const total = Math.round(amountScore + hourScore + distanceScore + merchantScore);
+
+    scoreText.textContent = String(total);
+    arc.style.strokeDashoffset = String(ARC_LENGTH * (1 - total / 100));
+
+    barAmount.style.width = `${(amountScore / 40) * 100}%`;
+    barHour.style.width = `${(hourScore / 25) * 100}%`;
+    barDistance.style.width = `${(distanceScore / 25) * 100}%`;
+    barMerchant.style.width = `${(merchantScore / 10) * 100}%`;
+
+    barAmountVal.textContent = `${amountScore.toFixed(1)} / 40`;
+    barHourVal.textContent = `${hourScore.toFixed(1)} / 25`;
+    barDistanceVal.textContent = `${distanceScore.toFixed(1)} / 25`;
+    barMerchantVal.textContent = `${merchantScore} / 10`;
+
+    let color = "var(--color-teal)";
+    let label = "Low risk — auto-approve";
+    if (total >= 70) {
+      color = "var(--color-coral)";
+      label = "High risk — block & escalate";
+    } else if (total >= 40) {
+      color = "var(--color-amber)";
+      label = "Medium risk — flag for review";
+    }
+    arc.style.stroke = color;
+    verdict.style.color = color;
+    verdict.textContent = label;
+  }
+
+  [amountEl, hourEl, distanceEl, merchantEl].forEach((el) =>
+    el.addEventListener("input", update)
+  );
+  update();
+</script>

@@ -1,0 +1,67 @@
+---
+const bars = [
+  { label: "Baseline", value: 76, color: "var(--color-ink-dim)" },
+  { label: "SMOTE + threshold tuning", value: 90, color: "var(--color-blue)" },
+];
+const max = 100;
+const chartWidth = 320;
+const barHeight = 28;
+const gap = 18;
+---
+
+<figure class="w-full">
+  <svg
+    viewBox={`0 0 ${chartWidth} ${bars.length * (barHeight + gap)}`}
+    class="w-full"
+    role="img"
+    aria-label="Fraud recall improved from 76 percent baseline to over 90 percent after SMOTE and threshold optimisation"
+  >
+    {
+      bars.map((bar, i) => {
+        const y = i * (barHeight + gap);
+        const w = (bar.value / max) * chartWidth;
+        return (
+          <g>
+            <text
+              x="0"
+              y={y - 4}
+              fill="var(--color-ink-muted)"
+              class="font-mono"
+              style="font-size: 9px;"
+            >
+              {bar.label}
+            </text>
+            <rect
+              x="0"
+              y={y}
+              width={chartWidth}
+              height={barHeight}
+              rx="3"
+              fill="var(--color-line)"
+            />
+            <rect
+              x="0"
+              y={y}
+              width={w}
+              height={barHeight}
+              rx="3"
+              fill={bar.color}
+            />
+            <text
+              x={w + 8}
+              y={y + barHeight / 2 + 4}
+              fill="var(--color-ink)"
+              class="font-mono font-medium"
+              style="font-size: 12px;"
+            >
+              {bar.value}%
+            </text>
+          </g>
+        );
+      })
+    }
+  </svg>
+  <figcaption class="mt-2 font-mono text-xs text-ink-muted">
+    Fraud recall on the held-out test set, 284,807 transactions
+  </figcaption>
+</figure>

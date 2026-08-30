@@ -1,0 +1,74 @@
+---
+import Icon from "./Icon.astro";
+import FraudPipeline from "./FraudPipeline.astro";
+import RecallChart from "./RecallChart.astro";
+import { getRepoMeta, relativeTime, repoPathFromUrl } from "../lib/github";
+
+const tags = ["Python", "scikit-learn", "SMOTE", "Imbalanced data"];
+const githubUrl = "https://github.com/Varungupta2003/CREDIT-CARD-FRAUD-DETECTION";
+const repoMeta = await getRepoMeta(repoPathFromUrl(githubUrl));
+---
+
+<article class="reveal rounded-2xl border border-line bg-surface p-6 sm:p-8">
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <p class="font-mono text-xs uppercase tracking-wide text-blue">
+        Dept. 01 — Fraud &amp; Risk Intelligence · Headline project
+      </p>
+      <h3 class="mt-1 font-display text-xl font-semibold text-ink sm:text-2xl">
+        Credit Card Fraud Detection
+      </h3>
+      <p class="mt-1 text-sm leading-relaxed text-ink-muted">
+        Recall improved from 76% to 90%+ on 284,807 imbalanced transactions
+        using SMOTE and decision threshold optimisation.
+      </p>
+    </div>
+    <a
+      href={githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue"
+    >
+      <Icon name="github" class="h-4 w-4" />
+      Code
+    </a>
+  </div>
+
+  <ul class="mt-4 flex flex-wrap gap-1.5" aria-label="Tech stack">
+    {
+      tags.map((tag) => (
+        <li class="rounded-full border border-line bg-surface-raised px-2.5 py-1 font-mono text-[11px] text-ink-muted">
+          {tag}
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    repoMeta && (
+      <div class="mt-3 flex items-center gap-1.5 font-mono text-[10px] text-ink-dim">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-75" />
+          <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-teal" />
+        </span>
+        Synced from GitHub · pushed {relativeTime(repoMeta.updatedAt)}
+        {repoMeta.language && ` · ${repoMeta.language}`}
+      </div>
+    )
+  }
+
+  <div class="mt-6 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+    <div>
+      <p class="mb-2 font-mono text-xs uppercase tracking-wide text-ink-muted">
+        Pipeline
+      </p>
+      <FraudPipeline />
+    </div>
+    <div class="flex flex-col justify-end">
+      <p class="mb-2 font-mono text-xs uppercase tracking-wide text-ink-muted">
+        Recall
+      </p>
+      <RecallChart />
+    </div>
+  </div>
+</article>

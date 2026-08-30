@@ -1,0 +1,113 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Varun Gupta — AI Engineer",
+  description = "MSc AI graduate building explainable, engineering-grounded ML and agentic systems. Fraud detection, NLP, and RAG projects with real metrics.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0c10" />
+    <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+  </head>
+  <body class="bg-void font-body text-ink antialiased">
+    <slot />
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (reduceMotion) {
+        gsap.set(".reveal", { opacity: 1, y: 0 });
+      } else {
+        // fade/slide reveals
+        gsap.utils.toArray<HTMLElement>(".reveal").forEach((el, i) => {
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            delay: Number(el.dataset.delay || 0),
+            scrollTrigger: { trigger: el, start: "top 88%" },
+          });
+        });
+
+        // sequential pipeline step draw-in
+        gsap.utils.toArray<HTMLElement>("[data-pipeline]").forEach((group) => {
+          const steps = group.querySelectorAll<HTMLElement>("[data-step]");
+          gsap.set(steps, { opacity: 0, y: 16 });
+          ScrollTrigger.create({
+            trigger: group,
+            start: "top 75%",
+            once: true,
+            onEnter: () =>
+              gsap.to(steps, {
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+                stagger: 0.18,
+                ease: "power2.out",
+              }),
+          });
+        });
+
+        // count-up stats
+        gsap.utils.toArray<HTMLElement>("[data-counter]").forEach((el) => {
+          const target = Number(el.dataset.counter);
+          const suffix = el.dataset.suffix || "";
+          const obj = { val: 0 };
+          ScrollTrigger.create({
+            trigger: el,
+            start: "top 90%",
+            once: true,
+            onEnter: () =>
+              gsap.to(obj, {
+                val: target,
+                duration: 1.6,
+                ease: "power1.out",
+                onUpdate: () => {
+                  el.textContent = Math.round(obj.val).toLocaleString() + suffix;
+                },
+              }),
+          });
+        });
+      }
+
+      // 3D hover tilt on project cards
+      if (!reduceMotion) {
+        document.querySelectorAll<HTMLElement>(".card-3d").forEach((card) => {
+          const rotX = gsap.quickTo(card, "rotateX", { duration: 0.4, ease: "power2.out" });
+          const rotY = gsap.quickTo(card, "rotateY", { duration: 0.4, ease: "power2.out" });
+          card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const px = (e.clientX - rect.left) / rect.width - 0.5;
+            const py = (e.clientY - rect.top) / rect.height - 0.5;
+            rotY(px * 10);
+            rotX(py * -10);
+          });
+          card.addEventListener("mouseleave", () => {
+            rotX(0);
+            rotY(0);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
